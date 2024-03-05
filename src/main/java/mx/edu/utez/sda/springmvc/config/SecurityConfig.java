@@ -3,15 +3,23 @@ package mx.edu.utez.sda.springmvc.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true
+)
 public class SecurityConfig {
 
     @Bean
@@ -29,7 +37,38 @@ public class SecurityConfig {
                 .password(passwordEncoder().encode("admin123"))
                 .roles("ADMIN")
                 .build();
+        UserDetails recepcion = User.withUsername("recepcion")
+                .password(passwordEncoder().encode("1234"))
+                .roles("RECE")
+                .build();
+        UserDetails children = User.withUsername("children")
+                .password(passwordEncoder().encode("1234"))
+                .roles("CHILD")
+                .build();
+        UserDetails teen = User.withUsername("teen")
+                .password(passwordEncoder().encode("1234"))
+                .roles("TEEN")
+                .build();
+        UserDetails adulto = User.withUsername("adulto")
+                .password(passwordEncoder().encode("1234"))
+                .roles("ADULT")
+                .build();
 
-        return new InMemoryUserDetailsManager(user1, admin);
+        return new InMemoryUserDetailsManager(user1, admin, recepcion, children,teen, adulto);
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeHttpRequests((requests) -> {
+            requests.requestMatchers("/", "/index").permitAll();
+            requests.anyRequest().authenticated();
+        });
+        httpSecurity.formLogin((login) -> {
+            login.loginPage("/login").permitAll();
+        });
+        httpSecurity.logout((logout) -> {
+            logout.permitAll();
+        });
+        return httpSecurity.build();
     }
 }
