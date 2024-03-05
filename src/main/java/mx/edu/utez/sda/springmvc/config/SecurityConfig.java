@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService(){
-        UserDetails children = User.withUsername("children")
+            UserDetails children = User.withUsername("children")
                 .password(passwordEncoder().encode("1234"))
                 .roles("CHILD")
                 .build();
