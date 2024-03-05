@@ -29,18 +29,6 @@ public class SecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService(){
-        UserDetails user1 = User.withUsername("user1")
-                .password(passwordEncoder().encode("Uno234"))
-                .roles("USER")
-                .build();
-        UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder().encode("admin123"))
-                .roles("ADMIN")
-                .build();
-        UserDetails recepcion = User.withUsername("recepcion")
-                .password(passwordEncoder().encode("1234"))
-                .roles("RECE")
-                .build();
         UserDetails children = User.withUsername("children")
                 .password(passwordEncoder().encode("1234"))
                 .roles("CHILD")
@@ -54,7 +42,7 @@ public class SecurityConfig {
                 .roles("ADULT")
                 .build();
 
-        return new InMemoryUserDetailsManager(user1, admin, recepcion, children,teen, adulto);
+        return new InMemoryUserDetailsManager(children,teen, adulto);
     }
 
     @Bean
