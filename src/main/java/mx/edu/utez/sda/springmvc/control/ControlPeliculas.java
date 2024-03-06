@@ -14,9 +14,14 @@ public class ControlPeliculas {
         return "movies";
     }
     @RequestMapping(value = "/child", method = RequestMethod.GET)
-    @Secured("ROLE_CHILD")
+    @Secured({"ROLE_CHILD", "ROLE_ADULT"})
     public String child() {
         return "children";
+    }
+    @RequestMapping(value = "/adult", method = RequestMethod.GET)
+    @Secured({"ROLE_ADULT"})
+    public String adult() {
+        return "adultos";
     }
 
 }
