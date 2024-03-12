@@ -6,17 +6,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/movies")
+@RequestMapping("/peliculas")
 public class ControlPeliculas {
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    @Secured({"ROLE_RECE","ROLE_CHILD", "ROLE_TEEN","ROLE_ADULT"})
+    @Secured({"ROLE_RECE","ROLE_NINIO","ROLE_ADULTO"})
     public String index() {
-        return "movies";
+        return "peliculas";
     }
-    @RequestMapping(value = "/child", method = RequestMethod.GET)
-    @Secured("ROLE_CHILD")
+    @RequestMapping(value = "/ninios", method = RequestMethod.GET)
+    @Secured({"ROLE_NINIO", "ROLE_ADULTO"})
     public String child() {
-        return "children";
+        return "ninios";
     }
+
+    @RequestMapping(value = "/adultos", method = RequestMethod.GET)
+    @Secured("ROLE_ADULTO")
+    public String adulto() {
+        return "adultos";
+    }
+
+
+
+
 
 }

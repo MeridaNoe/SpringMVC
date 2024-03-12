@@ -29,20 +29,16 @@ public class SecurityConfig {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService(){
-            UserDetails children = User.withUsername("children")
+            UserDetails children = User.withUsername("ninio")
                 .password(passwordEncoder().encode("1234"))
-                .roles("CHILD")
-                .build();
-        UserDetails teen = User.withUsername("teen")
-                .password(passwordEncoder().encode("1234"))
-                .roles("TEEN")
+                .roles("NINIO")
                 .build();
         UserDetails adulto = User.withUsername("adulto")
                 .password(passwordEncoder().encode("1234"))
-                .roles("ADULT")
+                .roles("ADULTO")
                 .build();
 
-        return new InMemoryUserDetailsManager(children,teen, adulto);
+        return new InMemoryUserDetailsManager(children, adulto);
     }
 
     @Bean
